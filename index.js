@@ -4,7 +4,7 @@ const logger = require("koa-logger");
 const bodyParser = require("koa-bodyparser");
 const fs = require("fs");
 const path = require("path");
-const { init: initDB, Counter } = require("./db");
+// const { init: initDB, Counter } = require("./db");
 
 const router = new Router();
 
@@ -19,27 +19,18 @@ router.get("/", async (ctx) => {
 router.post("/api/count", async (ctx) => {
   const { request } = ctx;
   const { action } = request.body;
-  if (action === "inc") {
-    await Counter.create();
-  } else if (action === "clear") {
-    await Counter.destroy({
-      truncate: true,
-    });
-  }
 
   ctx.body = {
     code: 0,
-    data: await Counter.count(),
+    data: 9,
   };
 });
 
 // 获取计数
 router.get("/api/count", async (ctx) => {
-  const result = await Counter.count();
-
   ctx.body = {
     code: 0,
-    data: result,
+    data: 8,
   };
 });
 
@@ -59,7 +50,7 @@ app
 
 const port = process.env.PORT || 80;
 async function bootstrap() {
-  await initDB();
+  // await initDB();
   app.listen(port, () => {
     console.log("启动成功", port);
   });

@@ -1,3 +1,7 @@
+### 开发备注
+
+因 使用官方模板再次执行流水线（部署） 失败，现尝试采用另一种方式，自定义发布。
+
 # wxcloudrun-koa
 
 [![GitHub license](https://img.shields.io/github/license/WeixinCloud/wxcloudrun-koa)](https://github.com/WeixinCloud/wxcloudrun-koa)
