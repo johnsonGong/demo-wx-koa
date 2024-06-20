@@ -4,7 +4,7 @@
   "description": "微信云托管 koa 框架模板",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "cross-env MYSQL_ADDRESS=sh-cynosdbmysql-grp-r31rfh4q.sql.tencentcdb.com:20313 MYSQL_PASSWORD=3nY2cKjB  MYSQL_USERNAME=root node index.js"
   },
   "author": "",
   "license": "Apache-2.0",
@@ -19,5 +19,8 @@
     "koa-router": "^10.1.1",
     "mysql2": "^2.3.3",
     "sequelize": "^6.13.0"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3"
   }
 }
