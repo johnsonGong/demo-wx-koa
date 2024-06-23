@@ -207,7 +207,8 @@
     <div class="title">
       <img class="title-logo"
         src="https://static-index-4gtuqm3bfa95c963-1304825656.tcloudbaseapp.com/official-website/favicon.svg" />
-      <div style="display: inline; margin-bottom: 48px" class="title-text">欢迎使用微信云托管</div>
+
+<div style="display: inline; margin-bottom: 48px" class="title-text">欢迎使用微信云托管B</div>
       <div style="display: inline; margin-bottom: 48px" class="title-text">dev 版本-时间： 0620-1505</div>
     </div>
     <div style="text-align: center; display: flex; flex-direction: column; align-items: center; margin: 0">
@@ -218,6 +219,8 @@
       </span>
       <a class="btn btn-success btn-lg count-button" style="background: #07c160; border: 0"
         onclick="set('inc')">计数+1</a>
+        <a class="btn btn-success btn-lg count-button" style="background: #c3eb23; border: 0"
+        onclick="addPerson()">新增人员</a>
       <div class="card" style="width: 320px; margin-bottom: 48px;">
         <div class="card-body">
           <img class="qrcode middle"
@@ -295,6 +298,24 @@
         $(".count-number").html(res.data);
       }
     });
+  }
+
+  function addPerson() {
+    var tmpTime = new Date().getTime()+'';
+    $.ajax("/api/addPeron", {
+      method: "POST",
+      contentType: "application/json; charset=utf-8",
+      dataType: "json",
+      data: JSON.stringify({
+        uuid: '200-222-' + tmpTime.slice(-5),
+        id: '110-111-' + tmpTime.slice(-4),
+        branchCode: 'A-101',
+        puOrder: 14,
+        name: '龚正甲'
+      })
+    }).done(function(res) {
+        console.log('新增人员成功: \n', res)
+      })
   }
 </script>
 
