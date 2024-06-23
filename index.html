@@ -213,10 +213,12 @@
       <span class="count-text">
         <span style="margin-right: 16px;">当前计数:</span>
         <span class="count-number"></span>
-        <span class="count-reset" onclick="set('clear')">清零A</span>
+        <span class="count-reset" onclick="set('clear')">清零B</span>
       </span>
       <a class="btn btn-success btn-lg count-button" style="background: #07c160; border: 0"
         onclick="set('inc')">计数+1</a>
+        <a class="btn btn-success btn-lg count-button" style="background: #c3eb23; border: 0"
+        onclick="addPerson()">新增人员</a>
       <div class="card" style="width: 320px; margin-bottom: 48px;">
         <div class="card-body">
           <img class="qrcode middle"
@@ -294,6 +296,24 @@
         $(".count-number").html(res.data);
       }
     });
+  }
+
+  function addPerson() {
+    var tmpTime = new Date().getTime()+'';
+    $.ajax("/api/addPeron", {
+      method: "POST",
+      contentType: "application/json; charset=utf-8",
+      dataType: "json",
+      data: JSON.stringify({
+        uuid: '200-222-' + tmpTime.slice(-5),
+        id: '110-111-' + tmpTime.slice(-4),
+        branchCode: 'A-101',
+        puOrder: 14,
+        name: '龚正甲'
+      })
+    }).done(function(res) {
+        console.log('新增人员成功: \n', res)
+      })
   }
 </script>
 

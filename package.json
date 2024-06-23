@@ -4,7 +4,8 @@
   "description": "微信云托管 koa 框架模板",
   "main": "index.js",
   "scripts": {
-    "start": "cross-env MYSQL_ADDRESS=sh-cynosdbmysql-grp-r31rfh4q.sql.tencentcdb.com:20313 MYSQL_PASSWORD=3nY2cKjB  MYSQL_USERNAME=root node index.js"
+    "start": "cross-env MYSQL_ADDRESS=sh-cynosdbmysql-grp-697hf3b0.sql.tencentcdb.com:20220 MYSQL_PASSWORD=Ua8SZRHT  MYSQL_USERNAME=root node index.js",
+    "start-dev": "cross-env MYSQL_ADDRESS=localhost:3306 MYSQL_PASSWORD=Gong1234@  MYSQL_USERNAME=root node index.js"
   },
   "author": "",
   "license": "Apache-2.0",
