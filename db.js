@@ -91,16 +91,21 @@ const Person = sequelize.define("Person", {
   gender: {
     type: DataTypes.STRING(10),
   },
-  // 是否为继承人, 女性为 招婿&上门; 1-是, 0-否;
-  isInherit:{
+  // 是否为继承人, 女性若为招婿则为继承人，男性若入赘则不是继承人; 1-是, 0-否;
+  isInherit: {
     type: DataTypes.STRING(10),
   },
   // 地址
   addr: {
     type: DataTypes.STRING(20),
   },
+  // 在08版本族谱的位置、页码
+  bookPage: {
+    type: DataTypes.STRING(20),
+    allowNull: false
+  },
   detail: {
-    type: DataTypes.STRING(100),
+    type: DataTypes.STRING(200),
   }
 })
 
