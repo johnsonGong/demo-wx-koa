@@ -9,6 +9,9 @@ const sequelize = new Sequelize("nodejs_demo", MYSQL_USERNAME, MYSQL_PASSWORD, {
   host,
   port,
   dialect: "mysql" /* one of 'mysql' | 'mariadb' | 'postgres' | 'mssql' */,
+  define: {
+    freezeTableName: true
+  }
 });
 
 // 定义数据模型, 等价于数据库中的 表
@@ -24,7 +27,8 @@ const Person = sequelize.define("Person", {
   // mysql自动生成的 uuid
   uuid: {
     type: DataTypes.UUID,
-    allowNull: false
+    allowNull: false,
+    defaultValue: DataTypes.UUIDV4
   },
   // 唯一编号
   id: {
