@@ -8,7 +8,7 @@ const homePage = fs.readFileSync(path.join(__dirname, "index.html"), "utf-8");
 
 const { Counter } = require("./db");
 
-const { addPerson, getAllPersons } = require('./db-person')
+const { getAllPersons, addPerson, editPerson, getSinglePerson } = require('./db-person')
 
 
 module.exports = (app) => {
@@ -78,8 +78,19 @@ router.post("/api/searchPeronList", async (ctx) => {
     code: 200,
     data: list
   }
-})
+});
 
-app.use(router.routes())
-.use(router.allowedMethods());
+// 查询人员列表
+router.post("/api/editPerson", async (ctx) => {
+  const { request } = ctx;
+  const tmpBosy = request.body;
+  const editRes = await editPerson( tmpBosy )
+  ctx.body = {
+    code: 200,
+    data: editRes
+  }
+});
+
+app.use(router.routes()).use(router.allowedMethods());
+
 }
