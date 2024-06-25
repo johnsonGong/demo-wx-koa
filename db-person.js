@@ -5,7 +5,9 @@ const { Op } = require('sequelize');
  * 查询符合过滤条件的人员列表;
  * 
  * @param {Object} params
- * @param {number} params.page      页码
+ * @param {String} params.name      谱名
+ * @param {String} params.name2     常用名
+ * @param {number} params.pageNo    页码
  * @param {number} params.pageSize  每页数据量
  * @param {number} params.puOrder   谱序
  *  
@@ -13,16 +15,30 @@ const { Op } = require('sequelize');
  */
 async function getAllPersons(params) {
   let tmpDataIn = {}
+
+  let tmpWhere = {}
   if (params.puOrder > 0) {
-    tmpDataIn.where = {
-      puOrder: {
-        [Op.eq]:params.puOrder
-      }
+    tmpWhere.puOrder = {
+      [Op.eq]:params.puOrder
     }
   }
-  const startIdx = (params.page - 1) * params.pageSize
-  tmpDataIn.limit = startIdx
-  tmpDataIn.offset = startIdx + params.pageSize
+  if (params.name) {
+    tmpWhere.name = {
+      [Op.eq]:params.name
+    }
+  }
+  if (params.name2) {
+    tmpWhere.name2 = {
+      [Op.eq]:params.name2
+    }
+  }
+  if ( Object.keys(tmpWhere).length > 0) {
+    tmpDataIn.where = tmpWhere
+  }
+  
+  const startIdx = (params.pageNo - 1) * params.pageSize
+  tmpDataIn.limit = params.pageSize
+  tmpDataIn.offset = startIdx
   return Person.findAndCountAll(tmpDataIn)
 }
 
@@ -39,7 +55,11 @@ async function addPerson(personData) {
  * @param {*} params 
  */
 async function deletePerson(params){
-
+  return Person.destroy({
+    where: {
+      uuid: params.uuid
+    }
+  })
 }
 
 /**
@@ -48,7 +68,11 @@ async function deletePerson(params){
  * @param {*} params 
  */
 async function editPerson(params){
-
+  return Person.update( params.formData, {
+    where: {
+      uuid: params.uuid
+    }
+  })
 }
 
 /**
@@ -57,11 +81,19 @@ async function editPerson(params){
  * @param {*} params 
  */
 async function getSinglePerson(params){
-
+  return Person.findOne({
+    where: {
+      uuid: params.uuid
+    }
+  })
 }
 
 module.exports = {
-  addPerson
+  addPerson,
+  getAllPersons,
+  deletePerson,
+  editPerson,
+  getSinglePerson
 }
 
 

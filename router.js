@@ -8,7 +8,7 @@ const homePage = fs.readFileSync(path.join(__dirname, "index.html"), "utf-8");
 
 const { Counter } = require("./db");
 
-const { addPerson } = require('./db-person')
+const { addPerson, getAllPersons } = require('./db-person')
 
 
 module.exports = (app) => {
@@ -63,13 +63,22 @@ router.post("/api/addPeron", async (ctx) => {
   console.log('[/api/addPeron] - post -> tmpBosy: \n', tmpBosy)
 
   const result = await addPerson(tmpBosy);
-  console.log('[/api/addPeron] - post -> result: \n', result)
   ctx.body = {
     code: 200,
     data: (result.dataValues.uuid) ? {msg: '成功'} : {msg: '失败'},
   };
 });
 
+// 查询人员列表
+router.post("/api/searchPeronList", async (ctx) => {
+  const { request } = ctx;
+  const tmpBosy = request.body;
+  const list = await getAllPersons( tmpBosy )
+  ctx.body = {
+    code: 200,
+    data: list
+  }
+})
 
 app.use(router.routes())
 .use(router.allowedMethods());
