@@ -16,31 +16,40 @@ async function getAllPersons(params) {
   let tmpDataIn = {}
 
   let tmpWhere = {}
+  if (params.name) {
+    // 谱名 or 常用名
+    tmpWhere = {
+      [Op.or]: [{
+        name: {
+          [Op.eq]: params.name
+        }
+      },{
+        name2: {
+          [Op.eq]: params.name
+        }
+      }]
+    }
+  }
+
   if (params.puOrder > 0) {
+    // 谱序
     tmpWhere.puOrder = {
       [Op.eq]:params.puOrder
     }
   }
-  if (params.name) {
-    tmpWhere.name = {
-      [Op.eq]:params.name
+
+  if (params.branchCode) {
+    // 支系
+    tmpWhere.branchCode = {
+      [Op.eq]:params.branchCode
     }
   }
-  // if (params.name2) {
-  //   tmpWhere.name2 = {
-  //     [Op.eq]:params.name2
-  //   }
-  // }
-  if ( Object.keys(tmpWhere).length > 0) {
-    tmpDataIn.where = tmpWhere
-  }
 
-  console.log('[where条件]->1 :', JSON.stringify(tmpWhere))
-  
+  tmpDataIn.where = tmpWhere
+
   const startIdx = (params.pageNo - 1) * params.pageSize
   tmpDataIn.limit = params.pageSize
   tmpDataIn.offset = startIdx
-  console.log('[where条件]->2 :', JSON.stringify(tmpDataIn))
 
   return Person.findAndCountAll(tmpDataIn)
 }
