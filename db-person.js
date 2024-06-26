@@ -35,11 +35,13 @@ async function getAllPersons(params) {
     tmpDataIn.where = tmpWhere
   }
 
-  console.log('[where条件]:', tmpDataIn)
+  console.log('[where条件]->1 :', JSON.stringify(tmpWhere))
   
   const startIdx = (params.pageNo - 1) * params.pageSize
   tmpDataIn.limit = params.pageSize
   tmpDataIn.offset = startIdx
+  console.log('[where条件]->2 :', JSON.stringify(tmpDataIn))
+
   return Person.findAndCountAll(tmpDataIn)
 }
 

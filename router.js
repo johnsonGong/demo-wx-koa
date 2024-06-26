@@ -73,7 +73,7 @@ router.post("/api/addPeron", async (ctx) => {
 router.post("/api/searchPeronList", async (ctx) => {
   const { request } = ctx;
   const tmpBosy = request.body;
-  console.log('[查询人员列表-> searchPeronList]: ', tmpBosy)
+  console.log('[查询人员列表-> searchPeronList]: ', JSON.stringify(tmpBosy))
   const list = await getAllPersons( tmpBosy )
   ctx.body = {
     code: 200,
