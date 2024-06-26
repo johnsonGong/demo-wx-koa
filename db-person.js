@@ -16,32 +16,33 @@ async function getAllPersons(params) {
   let tmpDataIn = {}
 
   let tmpWhere = {}
-  if (params.name) {
+  const tmpFormData = params.searchForm
+  if (tmpFormData.name) {
     // 谱名 or 常用名
     tmpWhere = {
       [Op.or]: [{
         name: {
-          [Op.eq]: params.name
+          [Op.eq]: tmpFormData.name
         }
       },{
         name2: {
-          [Op.eq]: params.name
+          [Op.eq]: tmpFormData.name
         }
       }]
     }
   }
 
-  if (params.puOrder > 0) {
+  if (tmpFormData.puOrder > 0) {
     // 谱序
     tmpWhere.puOrder = {
-      [Op.eq]:params.puOrder
+      [Op.eq]:tmpFormData.puOrder
     }
   }
 
-  if (params.branchCode) {
+  if (tmpFormData.branchCode) {
     // 支系
     tmpWhere.branchCode = {
-      [Op.eq]:params.branchCode
+      [Op.eq]:tmpFormData.branchCode
     }
   }
 
