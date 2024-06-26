@@ -22,11 +22,11 @@ async function getAllPersons(params) {
     tmpWhere = {
       [Op.or]: [{
         name: {
-          [Op.eq]: tmpFormData.name
+          [Op.substring]: tmpFormData.name
         }
       },{
         name2: {
-          [Op.eq]: tmpFormData.name
+          [Op.substring]: tmpFormData.name
         }
       }]
     }
