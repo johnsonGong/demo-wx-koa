@@ -85,6 +85,7 @@ router.post("/api/searchPeronList", async (ctx) => {
 router.post("/api/editPerson", async (ctx) => {
   const { request } = ctx;
   const tmpBosy = request.body;
+  console.log('TODO --> editPerson:', tmpBosy)
   const editRes = await editPerson( tmpBosy )
   ctx.body = {
     code: 200,
