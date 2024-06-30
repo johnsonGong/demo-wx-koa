@@ -81,11 +81,18 @@ async function deletePerson(params){
  * @param {*} params 
  */
 async function editPerson(params){
-  return Person.update( params.formData, {
+  let localPerson = await Person.findOne({
     where: {
       uuid: params.uuid
     }
   })
+
+  if (localPerson) {
+    // 存在
+    return localPerson.update(params)
+  } else {
+    throw new Error('更新失败，未能查找到数据!');
+  }
 }
 
 /**

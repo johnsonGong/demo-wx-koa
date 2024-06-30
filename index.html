@@ -224,6 +224,9 @@
 
         <a class="btn btn-success btn-sm count-button" style="background: #6756fa; border: 0"
         onclick="searchPersonList()">查询列表</a>
+        <a class="btn btn-success btn-sm count-button" style="background: #6756fa; border: 0"
+        onclick="updatePerson()"> 编辑人员 </a>
+        
 
         
       <div class="card" style="width: 320px; margin-bottom: 48px;">
@@ -340,6 +343,42 @@
     }).done(function(res) {
         console.log('查询结果: \n', res)
       })
+  }
+
+  function updatePerson() {
+    var tmpTime = new Date().getTime()+'';
+    var tmpData = {
+        "uuid": "598c2573-bf25-44c3-9efd-e384a450eb63",
+        "id": "0J5U-KX2O-MXNV",
+        "branchCode": "A-101",
+        "puOrder": 14,
+        "name": "龚正丙-" + tmpTime.slice(-5),
+        "name2": "炳坤",
+        "name_zi": "",
+        "name_hao": "",
+        "partner": "",
+        "partner_2": null,
+        "job": "",
+        "study": "",
+        "dateBirth": "",
+        "dateDie": "",
+        "gender": "1",
+        "isInherit": null,
+        "addr": "",
+        "bookPage": "",
+        "detail": "更新DEMO, AA-" + tmpTime.slice(-5)
+    }
+
+    var tmpTime = new Date().getTime()+'';
+    $.ajax("/api/editPerson", {
+      method: "POST",
+      contentType: "application/json; charset=utf-8",
+      dataType: "json",
+      data: JSON.stringify(tmpData)
+    }).done(function(res) {
+      console.log('编辑人员成功')
+    })
+    
   }
 </script>
 
