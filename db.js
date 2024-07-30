@@ -24,17 +24,16 @@ const Counter = sequelize.define("Counter", {
 });
 
 const Person = sequelize.define("Person", {
-  // mysql自动生成的 uuid
+  // 唯一编号, mysql自动生成的 uuid
   uuid: {
     type: DataTypes.UUID,
     allowNull: false,
-    defaultValue: DataTypes.UUIDV4
+    defaultValue: DataTypes.UUIDV4,
+    primaryKey: true
   },
-  // 唯一编号
+  // 唯一编号(todo)
   id: {
     type: DataTypes.STRING(20),
-    allowNull: false,
-    primaryKey: true
   },
   // 分支编码
   branchCode: {

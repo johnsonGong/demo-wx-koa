@@ -8,7 +8,7 @@ const homePage = fs.readFileSync(path.join(__dirname, "index.html"), "utf-8");
 
 const { Counter } = require("./db");
 
-const { getAllPersons, addPerson, editPerson, getSinglePerson } = require('./db-person')
+const { getAllPersons, addPerson, editPerson, deletePerson, getSinglePerson } = require('./db-person')
 
 
 module.exports = (app) => {
@@ -92,6 +92,18 @@ router.post("/api/editPerson", async (ctx) => {
     data: editRes
   }
 });
+
+// 删除人员
+router.post("/api/deletePerson", async (ctx) => {
+  const { request } = ctx;
+  const tmpBosy = request.body;
+  const deleNum = await deletePerson( tmpBosy )
+
+  ctx.body = {
+    code: 200,
+    data: deleNum
+  }
+})
 
 app.use(router.routes()).use(router.allowedMethods());
 

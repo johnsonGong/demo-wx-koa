@@ -49,7 +49,7 @@
     }
 
     .count-button {
-      width: 320px;
+      width: 200px;
       height: 40px;
       box-sizing: border-box;
       margin: 16px 8px;
@@ -199,14 +199,27 @@
       color: rgba(0, 0, 0, 0.55);
       letter-spacing: 0;
     }
+
+    .alert-wrap {
+      position: fixed;
+      left: 0px;
+      top: 0px;
+      width: 100%;
+      height: 50px;
+    }
   </style>
 </head>
 
 <body>
+
+  <!-- alert message -->
+  <div class="alert-wrap" id="page-alert">
+
+  </div>
   <div class="container">
     <div class="title">
-      <img class="title-logo"
-        src="https://static-index-4gtuqm3bfa95c963-1304825656.tcloudbaseapp.com/official-website/favicon.svg" />
+      <img class="title-logo" src="https://static-index-4gtuqm3bfa95c963-1304825656.tcloudbaseapp.com/official-website/favicon.svg" />
+      </div>
 
 <div style="display: inline; margin-bottom: 48px" class="title-text">欢迎使用微信云托管B</div>
       <div style="display: inline; margin-bottom: 48px" class="title-text">dev 版本-时间： 0620-1505</div>
@@ -217,7 +230,7 @@
         <span class="count-number"></span>
         <span class="count-reset" onclick="set('clear')">清零A</span>
       </span>
-      <a class="btn btn-success btn-lg count-button" style="background: #07c160; border: 0"
+        <a class="btn btn-success btn-lg count-button" style="background: #07c160; border: 0"
         onclick="set('inc')">计数+1</a>
         <a class="btn btn-success btn-sm count-button" style="background: #c3eb23; border: 0"
         onclick="addPerson()">新增人员A</a>
@@ -226,6 +239,13 @@
         onclick="searchPersonList()">查询列表</a>
         <a class="btn btn-success btn-sm count-button" style="background: #6756fa; border: 0"
         onclick="updatePerson()"> 编辑人员 </a>
+
+        <div>
+
+          <input type="text" name="" id="delPerson" placeholder="请输入待删除人员uuid">
+        </div>
+        <a class="btn btn-success btn-sm count-button" style="background: #6756fa; border: 0"
+        onclick="deletePerson()"> 删除人员 </a>
         
 
         
@@ -369,7 +389,6 @@
         "detail": "更新DEMO, AA-" + tmpTime.slice(-5)
     }
 
-    var tmpTime = new Date().getTime()+'';
     $.ajax("/api/editPerson", {
       method: "POST",
       contentType: "application/json; charset=utf-8",
@@ -379,6 +398,42 @@
       console.log('编辑人员成功')
     })
     
+  }
+
+  function deletePerson() {
+    var tmpId = $("#delPerson").val()
+
+    console.log('待删除uuid:', tmpId)
+
+    if(!tmpId) {
+      showMsg('请输入待删除人员的uuid', 'warning')
+      return;
+    }
+    
+    $.ajax("/api/deletePerson", {
+      method: "POST",
+      contentType: "application/json; charset=utf-8",
+      dataType: "json",
+      data: JSON.stringify({
+        uuid: tmpId
+      })
+    }).done(function(res) {
+      showMsg('删除人员成功', 'success')
+      console.log('删除人员成功')
+    })
+  }
+
+  function showMsg (message, type) {
+    var msgHtml = [
+    '<div class="alert alert-' + type + ' alert-dismissible" role="alert">',
+    '<div>',
+      message,
+    '</div>',
+    '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
+    '</div>'
+      ].join('');
+
+    $("#page-alert").html( msgHtml );
   }
 </script>
 
