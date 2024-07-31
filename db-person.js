@@ -46,11 +46,12 @@ async function getAllPersons(params) {
     }
   }
 
-  tmpDataIn.where = tmpWhere
+  tmpDataIn.where = tmpWhere  
 
   const startIdx = (params.pageNo - 1) * params.pageSize
   tmpDataIn.limit = params.pageSize
   tmpDataIn.offset = startIdx
+  tmpDataIn.order = [['updatedAt', 'DESC']]
 
   return Person.findAndCountAll(tmpDataIn)
 }
