@@ -9,7 +9,7 @@ const homePage = fs.readFileSync(path.join(__dirname, "index.html"), "utf-8");
 const { Counter } = require("./db");
 
 const { getAllPersons, addPerson, editPerson, deletePerson, getSinglePerson } = require('./db-person')
-
+const { addRelation, getRelationByTo, deleteRelation, editRelation } = require('./db-relation')
 
 module.exports = (app) => {
 // 首页
@@ -104,6 +104,55 @@ router.post("/api/deletePerson", async (ctx) => {
     data: deleNum
   }
 })
+
+
+// 新增关系
+router.post("/api/relation/add", async (ctx) => {
+  const { request } = ctx;
+  const tmpBosy = request.body;
+  console.log('[/api/relation/add] - post -> tmpBosy: \n', tmpBosy)
+
+  const result = await addRelation(tmpBosy);
+  ctx.body = {
+    code: 200,
+    data: (result.dataValues.uuid) ? {msg: '成功'} : {msg: '失败'},
+  };
+});
+
+// 删除关系
+router.post("/api/relation/delete", async (ctx) => {
+  const { request } = ctx;
+  const tmpBosy = request.body;
+  console.log('[/api/relation/delete] - post -> tmpBosy: \n', tmpBosy)
+
+  const deleNum = await deleteRelation(tmpBosy);
+  ctx.body = {
+    code: 200,
+    data: deleNum
+  };
+});
+
+// 查询关系
+router.post("/api/relation/find", async (ctx) => {
+  const { request } = ctx;
+  const tmpBosy = request.body;
+  const result = await getRelationByTo(tmpBosy);
+  ctx.body = {
+    code: 200,
+    data: (result.dataValues.uuid) ? {msg: '成功', res: result} : {msg: '失败'},
+  };
+});
+
+// 更新(编辑)关系
+router.post("/api/relation/edit", async (ctx) => {
+  const { request } = ctx;
+  const tmpBosy = request.body;
+  const result = await editRelation(tmpBosy);
+  ctx.body = {
+    code: 200,
+    data: (result.dataValues.uuid) ? {msg: '成功', res: result} : {msg: '失败'},
+  };
+});
 
 app.use(router.routes()).use(router.allowedMethods());
 

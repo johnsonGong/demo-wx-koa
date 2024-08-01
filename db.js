@@ -14,7 +14,7 @@ const sequelize = new Sequelize("nodejs_demo", MYSQL_USERNAME, MYSQL_PASSWORD, {
   }
 });
 
-// 定义数据模型, 等价于数据库中的 表
+// 定义数据模型 -- 计数, 等价于数据库中的 表
 const Counter = sequelize.define("Counter", {
   count: {
     type: DataTypes.INTEGER,
@@ -23,6 +23,7 @@ const Counter = sequelize.define("Counter", {
   },
 });
 
+// 定义模型 -- 人员
 const Person = sequelize.define("Person", {
   // 唯一编号, mysql自动生成的 uuid
   uuid: {
@@ -106,17 +107,52 @@ const Person = sequelize.define("Person", {
   detail: {
     type: DataTypes.STRING(200),
   }
-})
+});
+
+// 定义模型 -- 关系
+const Relation = sequelize.define("Relation", {
+  // 唯一编号, mysql自动生成的 uuid
+  uuid: {
+    type: DataTypes.UUID,
+    allowNull: false,
+    defaultValue: DataTypes.UUIDV4,
+    primaryKey: true
+  },
+  personFromId: {
+    type: DataTypes.STRING(50)
+  },
+  personFromName: {
+    type: DataTypes.STRING(50)
+  },
+  personToId: {
+    type: DataTypes.STRING(50),
+    unique: true
+  },
+  personToName: {
+    type: DataTypes.STRING(50)
+  },
+  desc: {
+    type: DataTypes.STRING(200)
+  },
+  relationName: {
+    type: DataTypes.STRING(50)
+  },
+  relationCode: {
+    type: DataTypes.STRING(50)
+  }
+});
 
 // 数据库初始化方法
 async function init() {
   await Counter.sync({ alter: true });
-  await Person.sync({ alter: true })
+  await Person.sync({ alter: true });
+  await Relation.sync({ alter: true });
 }
 
 // 导出初始化方法和模型
 module.exports = {
   init,
   Counter,
-  Person
+  Person,
+  Relation
 };

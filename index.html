@@ -241,11 +241,26 @@
         onclick="updatePerson()"> 编辑人员 </a>
 
         <div>
-
           <input type="text" name="" id="delPerson" placeholder="请输入待删除人员uuid">
+          <a class="btn btn-success btn-sm count-button" style="background: #6756fa; border: 0"
+            onclick="deletePerson()"> 删除人员 </a>
         </div>
-        <a class="btn btn-success btn-sm count-button" style="background: #6756fa; border: 0"
-        onclick="deletePerson()"> 删除人员 </a>
+        <a class="btn btn-success btn-sm count-button" 
+            style="background: #6756fa; border: 0"
+            onclick="addRelation()"> 新增关系 </a>
+            <div>
+              <input type="text" name="" id="relationInfo" placeholder="请输入待操作关系的uuid or toId">
+              <a class="btn btn-success btn-sm count-button" 
+            style="background: #6756fa; border: 0"
+            onclick="findRelation()"> 查找关系 </a>
+            <a class="btn btn-success btn-sm count-button" 
+            style="background: #6756fa; border: 0"
+            onclick="deleteRelation()"> 删除关系 </a>
+            </div>
+            <a class="btn btn-success btn-sm count-button" 
+            style="background: #6756fa; border: 0"
+            onclick="editRelation()"> 编辑关系 </a>
+        
         
 
         
@@ -420,6 +435,75 @@
     }).done(function(res) {
       showMsg('删除人员成功', 'success')
       console.log('删除人员成功')
+    })
+  }
+
+  function addRelation() {
+    // var  tmpRelationObj = {
+    //   personFromId: "8b1a4814-a997-4e64-8f75-1588d427510f",
+    //   personFromName: "龚呵",
+    //   personToId: "ca538ea0-d652-4f40-992e-7c5a1f642fea",
+    //   personToName: "龚呼",
+    //   relationCode: 2,
+    //   relationName: "其他",
+    //   desc: "AAA"
+    // }
+    let tmpRelationObj = JSON.parse(localStorage.getItem('relationItem'))
+
+    $.ajax("/api/relation/add", {
+      method: "POST",
+      contentType: "application/json; charset=utf-8",
+      dataType: "json",
+      data: JSON.stringify(tmpRelationObj)
+    }).done(function(res) {
+      showMsg('新增关系成功', 'success')
+      console.log('新增关系成功')
+    })
+  }
+
+  function deleteRelation() {
+    let tmpToId = $("#relationInfo").val();
+
+    $.ajax("/api/relation/delete", {
+      method: "POST",
+      contentType: "application/json; charset=utf-8",
+      dataType: "json",
+      data: JSON.stringify({
+        uuid: tmpToId
+      })
+    }).done(function(res) {
+      showMsg('删除关系成功', 'success')
+      console.log('删除关系成功')
+    })
+  }
+
+  function findRelation() {
+    let tmpToId = $("#relationInfo").val();
+
+    $.ajax("/api/relation/find", {
+      method: "POST",
+      contentType: "application/json; charset=utf-8",
+      dataType: "json",
+      data: JSON.stringify({
+        personToId: tmpToId
+      })
+    }).done(function(res) {
+      showMsg('查找关系成功', 'success')
+      console.log('查找关系成功:', res)
+    })
+  }
+
+  function editRelation() {
+    let tmpRelationObj = JSON.parse( localStorage.getItem('relationItem') )
+
+    $.ajax("/api/relation/edit", {
+      method: "POST",
+      contentType: "application/json; charset=utf-8",
+      dataType: "json",
+      data: JSON.stringify(tmpRelationObj)
+    }).done(function(res) {
+      showMsg('编辑关系成功', 'success')
+      console.log('编辑关系成功')
     })
   }
 
