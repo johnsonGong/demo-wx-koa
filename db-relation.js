@@ -34,8 +34,7 @@ async function editRelation(relationData){
 
   if (localRelation) {
     // 存在
-    let relation = await localRelation.update(relationData)
-    return relation;
+    return localRelation.update(relationData);
   } else {
     throw new Error('更新失败，未能查找到数据!');
   }
