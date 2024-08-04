@@ -260,8 +260,10 @@
             <a class="btn btn-success btn-sm count-button" 
             style="background: #6756fa; border: 0"
             onclick="editRelation()"> 编辑关系 </a>
-        
-        
+
+            <a class="btn btn-success btn-sm count-button" 
+            style="background: #6756fa; border: 0"
+            onclick="searchRelationList()"> 查询关系列表 </a>
 
         
       <div class="card" style="width: 320px; margin-bottom: 48px;">
@@ -491,6 +493,30 @@
       showMsg('查找关系成功', 'success')
       console.log('查找关系成功:', res)
     })
+  }
+
+  function searchRelationList() {
+    // var tmpSearchData = {
+    //     searchForm: {
+    //       name: '连',
+    //       branchCode: '',
+    //       puOrder: 0,
+    //     },
+    //     pageNo: 1,
+    //     pageSize: 10
+    // };
+
+    var tmpSearchData = JSON.parse( localStorage.getItem('SEARCH-RELATION') )
+    console.log('TODO -> SEARCH-RELATION: ', tmpSearchData)
+
+    $.ajax("/api/relation/list", {
+      method: "POST",
+      contentType: "application/json; charset=utf-8",
+      dataType: "json",
+      data: JSON.stringify(tmpSearchData)
+    }).done(function(res) {
+        console.log('查询结果: \n', res)
+      })
   }
 
   function editRelation() {

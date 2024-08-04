@@ -9,7 +9,7 @@ const homePage = fs.readFileSync(path.join(__dirname, "index.html"), "utf-8");
 const { Counter } = require("./db");
 
 const { getAllPersons, addPerson, editPerson, deletePerson, getSinglePerson } = require('./db-person')
-const { addRelation, getRelationByTo, deleteRelation, editRelation } = require('./db-relation')
+const { addRelation, getRelationByTo, deleteRelation, editRelation, getRelationList } = require('./db-relation')
 
 module.exports = (app) => {
 // 首页
@@ -81,11 +81,10 @@ router.post("/api/searchPeronList", async (ctx) => {
   }
 });
 
-// 查询人员列表
+// 编辑人员
 router.post("/api/editPerson", async (ctx) => {
   const { request } = ctx;
   const tmpBosy = request.body;
-  console.log('TODO --> editPerson:', tmpBosy)
   const editRes = await editPerson( tmpBosy )
   ctx.body = {
     code: 200,
@@ -141,6 +140,18 @@ router.post("/api/relation/find", async (ctx) => {
     code: 200,
     data: (result.dataValues.uuid) ? {msg: '成功', res: result} : {msg: '失败'},
   };
+});
+
+
+// 关系列表
+router.post("/api/relation/list", async (ctx) => {
+  const { request } = ctx;
+  const tmpBosy = request.body;
+  const list = await getRelationList(tmpBosy);
+  ctx.body = {
+    code: 200,
+    data: list
+  }
 });
 
 // 更新(编辑)关系

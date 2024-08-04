@@ -121,15 +121,23 @@ const Relation = sequelize.define("Relation", {
   personFromId: {
     type: DataTypes.STRING(50)
   },
+  // 谱名, 如: 龚正甲
   personFromName: {
-    type: DataTypes.STRING(50)
+    type: DataTypes.STRING(30)
+  },
+  // 常用名,如：龚甲
+  personFromName2: {
+    type: DataTypes.STRING(30),
   },
   personToId: {
     type: DataTypes.STRING(50),
     unique: true
   },
   personToName: {
-    type: DataTypes.STRING(50)
+    type: DataTypes.STRING(30)
+  },
+  personToName2: {
+    type: DataTypes.STRING(30)
   },
   desc: {
     type: DataTypes.STRING(200)

@@ -40,10 +40,75 @@ async function editRelation(relationData){
   }
 }
 
+/**
+ * 查询符合过滤条件的 关系列表;
+ * 
+ * @param {Object} params
+ * @param {String} params.name      s上辈or下辈的名称（谱名 or 常用名）
+ * @param {number} params.pageNo    页码
+ * @param {number} params.pageSize  每页数据量
+ * @param {number} params.puOrder   谱序
+ *  
+ * @returns Promise<{count: number|number[], rows: Model[]}>
+ */
+async function getRelationList(params) {
+
+  let tmpDataIn = {}
+
+  let tmpWhere = {}
+  const tmpFormData = params.searchForm
+  if (tmpFormData.name) {
+    // 谱名 or 常用名
+    tmpWhere = {
+      [Op.or]: [{
+        personFromName: {
+          [Op.substring]: tmpFormData.name
+        }
+      },{
+        personFromName2: {
+          [Op.substring]: tmpFormData.name
+        }
+      },{
+        personToName: {
+          [Op.substring]: tmpFormData.name
+        }
+      },{
+        personToName2: {
+          [Op.substring]: tmpFormData.name
+        }
+      }]
+    }
+  }
+
+  if (tmpFormData.puOrder > 0) {
+    // 谱序
+    tmpWhere.puOrder = {
+      [Op.eq]:tmpFormData.puOrder
+    }
+  }
+
+  if (tmpFormData.branchCode) {
+    // 支系
+    tmpWhere.branchCode = {
+      [Op.eq]:tmpFormData.branchCode
+    }
+  }
+
+  tmpDataIn.where = tmpWhere
+
+  const startIdx = (params.pageNo - 1) * params.pageSize
+  tmpDataIn.limit = params.pageSize
+  tmpDataIn.offset = startIdx
+  tmpDataIn.order = [['updatedAt', 'DESC']]
+
+  return Relation.findAndCountAll(tmpDataIn)
+}
+
 
 module.exports = {
   addRelation,
   getRelationByTo,
   deleteRelation,
-  editRelation
+  editRelation,
+  getRelationList
 }
