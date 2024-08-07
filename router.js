@@ -9,7 +9,7 @@ const homePage = fs.readFileSync(path.join(__dirname, "index.html"), "utf-8");
 const { Counter } = require("./db");
 
 const { getAllPersons, addPerson, editPerson, deletePerson, getSinglePerson } = require('./db-person')
-const { addRelation, getRelationByTo, deleteRelation, editRelation, getRelationList } = require('./db-relation')
+const { addRelation, getRelationById, deleteRelation, editRelation, getRelationList } = require('./db-relation')
 
 module.exports = (app) => {
 // 首页
@@ -131,17 +131,16 @@ router.post("/api/relation/delete", async (ctx) => {
   };
 });
 
-// 查询关系
-router.post("/api/relation/find", async (ctx) => {
+// 查询关系by uuid
+router.post("/api/relation/findOne", async (ctx) => {
   const { request } = ctx;
   const tmpBosy = request.body;
-  const result = await getRelationByTo(tmpBosy);
+  const result = await getRelationById(tmpBosy);
   ctx.body = {
     code: 200,
     data: (result.dataValues.uuid) ? {msg: '成功', res: result} : {msg: '失败'},
   };
 });
-
 
 // 关系列表
 router.post("/api/relation/list", async (ctx) => {

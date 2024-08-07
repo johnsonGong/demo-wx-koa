@@ -9,11 +9,18 @@ async function addRelation(relationData) {
 }
 
 // 因一个人员只能存在一个 父亲, 所以 整张表中 personToId 是唯一的。
-async function getRelationByTo(relationData) {
+async function getRelationById(relationData) {
+  var whereObj = {}
+  if (relationData.uuid) {
+    // 优先使用 uuid
+    whereObj.uuid = relationData.uuid
+  } else if(relationData.personToId) {
+    // 其次使用 personToId
+    whereObj.personToId = relationData.personToId
+  }
+
   return Relation.findOne({ 
-    where: {
-      personToId: relationData.personToId
-    }
+    where: whereObj
    })
 }
 
@@ -107,7 +114,7 @@ async function getRelationList(params) {
 
 module.exports = {
   addRelation,
-  getRelationByTo,
+  getRelationById,
   deleteRelation,
   editRelation,
   getRelationList

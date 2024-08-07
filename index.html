@@ -482,7 +482,7 @@
   function findRelation() {
     let tmpToId = $("#relationInfo").val();
 
-    $.ajax("/api/relation/find", {
+    $.ajax("/api/relation/findOne", {
       method: "POST",
       contentType: "application/json; charset=utf-8",
       dataType: "json",
